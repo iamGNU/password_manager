@@ -17,9 +17,9 @@ A simple desktop **Password Manager** built with **Python** and **Tkinter**. Thi
 
 > Add a screenshot of the application here.
 
-![Password Manager Screenshot](assets/screenshot_main.png)
+![Password Manager Screenshot](assets/Screenshot_main.png)
 
-![Password Manager Screenshot](assets/screenshot_savedpass.png)
+![Password Manager Screenshot](assets/Screenshot_savedpass.png)
 
 ---
 
