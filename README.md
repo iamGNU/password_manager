@@ -143,6 +143,7 @@ pip install pyperclip
 password-manager/
 │
 ├── main.py          # Main application
+├── assets           # Screetshot of working 
 ├── data.json        # Saved credentials
 ├── logo.png         # Application logo
 └── README.md
