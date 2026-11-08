@@ -2,6 +2,16 @@
 
 A simple desktop **Password Manager** built with **Python** and **Tkinter**. This application allows you to generate secure passwords, save login credentials locally in a JSON file, and quickly search for saved passwords.
 
+## ⬇️ Download (Windows)
+
+**[Download PasswordManager.exe](https://github.com/iamGNU/password_manager/releases/latest)**: no Python or installation needed. Just download it and double-click.
+
+> **"Windows protected your PC" warning?** The app isn't code-signed yet, so Windows SmartScreen doesn't recognise it. Click **More info → Run anyway**.
+
+Your passwords are saved on your computer in `%APPDATA%\PasswordManager\data.json`.
+
+---
+
 ## ✨ Features
 
 * 🔑 Generate strong random passwords, with a live strength meter (Weak / Fair / Strong)
@@ -38,7 +48,9 @@ A simple desktop **Password Manager** built with **Python** and **Tkinter**. Thi
 
 ---
 
-## 📦 Installation
+## 📦 Running from Source (for developers)
+
+If you just want to use the app, grab the [download](#️-download-windows) above instead.
 
 1. Clone the repository:
 
@@ -124,11 +136,16 @@ Passwords are generated with Python's `secrets` module, which is designed for se
 
 ## 📁 Data Storage
 
-All credentials are stored locally in a file named:
+All credentials are stored locally in a file named `data.json`:
 
-```text
-data.json
-```
+| How you run it | Where `data.json` (and `config.json`) live |
+| --- | --- |
+| `PasswordManager.exe` | `%APPDATA%\PasswordManager\` |
+| `python main.py` | The project folder |
+
+Set the `PASSWORD_MANAGER_DATA_DIR` environment variable to use a different folder.
+
+**Moving from the Python version to the .exe?** Copy your `data.json` (and `config.json`) from the project folder into `%APPDATA%\PasswordManager\`.
 
 Example:
 
@@ -160,15 +177,32 @@ pip install -r requirements.txt
 
 ---
 
+## 🏗️ Building the .exe
+
+```bash
+pip install -r requirements-dev.txt
+pyinstaller PasswordManager.spec --noconfirm
+```
+
+The app is created at `dist/PasswordManager.exe`. To publish it, create a release on GitHub and attach that file:
+
+```bash
+gh release create v1.0.0 dist/PasswordManager.exe --title "v1.0.0" --notes "First Windows release"
+```
+
+---
+
 ## 📂 Project Structure
 
 ```text
 password_manager/
 │
 ├── main.py               # Main application
-├── assets/               # Screenshots
+├── assets/               # Screenshots and the .exe icon (icon.ico)
 ├── logo.png              # Application logo
+├── PasswordManager.spec  # PyInstaller recipe for building the .exe
 ├── requirements.txt      # Python dependencies
+├── requirements-dev.txt  # Extra tools for building the .exe
 ├── config.example.json   # Template for config.json
 ├── config.json           # Your default email (created by you, git-ignored)
 ├── data.json             # Saved credentials (created by the app, git-ignored)
@@ -193,7 +227,7 @@ password_manager/
 * Dark mode
 * Edit and delete saved credentials
 * Export and import password database
-* Cross-platform packaging (Windows, macOS, Linux)
+* macOS and Linux builds
 
 ---
 

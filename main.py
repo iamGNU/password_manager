@@ -1,15 +1,49 @@
 import json
+import os
 import secrets
 import string
+import sys
 from pathlib import Path
 from tkinter import Tk, Canvas, PhotoImage, StringVar, BooleanVar, messagebox, ttk
 
 import pyperclip
 
-BASE_DIR = Path(__file__).resolve().parent
-DATA_FILE = BASE_DIR / "data.json"
-CONFIG_FILE = BASE_DIR / "config.json"
-LOGO_FILE = BASE_DIR / "logo.png"
+APP_NAME = "PasswordManager"
+
+
+def resource_dir():
+    """Folder holding bundled files like logo.png.
+
+    In a PyInstaller .exe this is the temporary folder the bundle unpacks to.
+    """
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS)
+    return Path(__file__).resolve().parent
+
+
+def data_dir():
+    """Folder where data.json and config.json are kept.
+
+    Running from source: the project folder (as before).
+    Running as an .exe: %APPDATA%\\PasswordManager, because the .exe's own
+    folder is temporary and may not be writable.
+    PASSWORD_MANAGER_DATA_DIR overrides both.
+    """
+    override = os.environ.get("PASSWORD_MANAGER_DATA_DIR")
+    if override:
+        folder = Path(override)
+    elif getattr(sys, "frozen", False):
+        folder = Path(os.environ.get("APPDATA", Path.home())) / APP_NAME
+    else:
+        folder = Path(__file__).resolve().parent
+    folder.mkdir(parents=True, exist_ok=True)
+    return folder
+
+
+DATA_DIR = data_dir()
+DATA_FILE = DATA_DIR / "data.json"
+CONFIG_FILE = DATA_DIR / "config.json"
+LOGO_FILE = resource_dir() / "logo.png"
 
 CLIPBOARD_CLEAR_MS = 30_000
 STATUS_CLEAR_MS = 6_000

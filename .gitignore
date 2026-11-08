@@ -11,3 +11,7 @@ venv/
 
 # IDE
 .idea/
+
+# Build output
+build/
+dist/
