@@ -4,12 +4,15 @@ A simple desktop **Password Manager** built with **Python** and **Tkinter**. Thi
 
 ## ✨ Features
 
-* 🔑 Generate strong random passwords
-* 📋 Automatically copy generated passwords to the clipboard
+* 🔑 Generate strong random passwords, with a live strength meter (Weak / Fair / Strong)
+* 📋 Automatically copy passwords to the clipboard (cleared after 30 seconds)
 * 💾 Save website credentials (website, email/username, password)
-* 🔍 Search for saved passwords by website
+* 🔍 Search saved passwords by website, with a dropdown of your saved sites
+* 🙈 Password field is hidden by default, with a **Show** toggle
+* ⚠️ Warns before overwriting a password that's already saved
+* ⌨️ Keyboard shortcuts and a status bar instead of constant pop-ups
 * 📂 Store credentials locally in a `data.json` file
-* 🖥️ Clean and user-friendly GUI built with Tkinter
+* 🖥️ Native-looking GUI built with Tkinter / ttk
 
 ---
 
@@ -30,7 +33,7 @@ A simple desktop **Password Manager** built with **Python** and **Tkinter**. Thi
 * Python 3
 * Tkinter
 * JSON
-* Random
+* `secrets` (cryptographically secure random generation)
 * Pyperclip
 
 ---
@@ -40,22 +43,30 @@ A simple desktop **Password Manager** built with **Python** and **Tkinter**. Thi
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/password-manager.git
+git clone https://github.com/iamGNU/password_manager.git
 ```
 
 2. Navigate to the project folder:
 
 ```bash
-cd password-manager
+cd password_manager
 ```
 
 3. Install the required dependency:
 
 ```bash
-pip install pyperclip
+pip install -r requirements.txt
 ```
 
-4. Run the application:
+4. (Optional) Set a default email that is pre-filled in the app:
+
+```bash
+cp config.example.json config.json
+```
+
+Then edit `config.json` and put your email in `default_email`. This file is git-ignored.
+
+5. Run the application:
 
 ```bash
 python main.py
@@ -69,9 +80,9 @@ python main.py
 
 * Enter the website name.
 * Enter your email or username.
-* Click **Generate Password** (or type your own).
-* Click **Add**.
-* Confirm the details when prompted.
+* Click **Generate Password** (or type your own and check the strength meter).
+* Click **Add** (or press **Enter** in the password field).
+* Confirm the details when prompted. If the website is already saved, you'll be asked whether to replace it.
 
 The credentials will be saved in `data.json`.
 
@@ -79,23 +90,35 @@ The credentials will be saved in `data.json`.
 
 ### 2. Search for a Password
 
-* Enter the website name.
-* Click **Search**.
-* If credentials exist, the saved email and password will be displayed.
-* The password is automatically copied to your clipboard.
+* Type the website name or pick it from the dropdown (the list narrows as you type).
+* Click **Search** or press **Enter**.
+* Search ignores upper/lower case and extra spaces (`GitHub.com` finds `github.com`).
+* If credentials exist, the form is filled in with the saved email and password (tick **Show** to see the password).
+* The password is automatically copied to your clipboard, and the clipboard is cleared after 30 seconds.
+
+---
+
+### Keyboard Shortcuts
+
+| Key | Action |
+| --- | --- |
+| **Enter** in Website | Search |
+| **Enter** in Email | Move to the Password field |
+| **Enter** in Password | Add / save |
+| **Ctrl+G** | Generate a password |
+| **Esc** | Clear the form |
 
 ---
 
 ### 3. Generate a Secure Password
 
-Click **Generate Password** to create a strong random password containing:
+Click **Generate Password** to create a 16–20 character random password containing:
 
-* Uppercase letters
-* Lowercase letters
+* Uppercase and lowercase letters
 * Numbers
 * Special characters
 
-The generated password is automatically copied to your clipboard.
+Passwords are generated with Python's `secrets` module, which is designed for security-sensitive randomness. The generated password is automatically copied to your clipboard (cleared after 30 seconds).
 
 ---
 
@@ -132,7 +155,7 @@ Example:
 Install dependencies:
 
 ```bash
-pip install pyperclip
+pip install -r requirements.txt
 ```
 
 ---
@@ -140,12 +163,15 @@ pip install pyperclip
 ## 📂 Project Structure
 
 ```text
-password-manager/
+password_manager/
 │
-├── main.py          # Main application
-├── assets           # Screetshot of working 
-├── data.json        # Saved credentials
-├── logo.png         # Application logo
+├── main.py               # Main application
+├── assets/               # Screenshots
+├── logo.png              # Application logo
+├── requirements.txt      # Python dependencies
+├── config.example.json   # Template for config.json
+├── config.json           # Your default email (created by you, git-ignored)
+├── data.json             # Saved credentials (created by the app, git-ignored)
 └── README.md
 ```
 
@@ -156,6 +182,7 @@ password-manager/
 * Passwords are stored locally in plain JSON format.
 * This project is intended for learning purposes and is **not recommended for storing sensitive credentials** without adding encryption and stronger security measures.
 * If `data.json` does not exist, it will be created automatically when you save your first password.
+* `data.json` and `config.json` are listed in `.gitignore` so your credentials are never committed. Don't remove them from it.
 
 ---
 
@@ -163,11 +190,9 @@ password-manager/
 
 * Encrypt stored passwords
 * Master password authentication
-* Password strength indicator
 * Dark mode
 * Edit and delete saved credentials
 * Export and import password database
-* Search suggestions
 * Cross-platform packaging (Windows, macOS, Linux)
 
 ---

@@ -1,0 +1,13 @@
+# Saved credentials and personal settings - never commit these
+data.json
+data.txt
+config.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
